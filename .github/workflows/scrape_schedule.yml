@@ -1,14 +1,40 @@
+name: Weekly Web Scraping Update
+
 on:
-  workflow_dispatch:
+  workflow_dispatch:  
   schedule:
-    - cron: "0 0 * * 1"  
+    - cron: "0 0 * * 1"  # runs every Monday at 00:00 UTC
+
 jobs:
   run:
     runs-on: ubuntu-latest
+
     steps:
-      - uses: actions/checkout@v3
-      - uses: actions/setup-python@v4
+      - name: Checkout repository
+        uses: actions/checkout@v3
+        with:
+          persist-credentials: true   # needed to push back to repo
+          fetch-depth: 0               # fetch full history to enable pushing
+
+      - name: Setup Python
+        uses: actions/setup-python@v4
         with:
           python-version: '3.10'
-      - run: pip install -r requirements.txt
-      - run: python -c "from Functions import run_all; run_all()"
+
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install -r requirements.txt
+
+      - name: Run full pipeline
+        run: python -c "from Functions import run_all; run_all()"
+
+      - name: Commit and push updated DB and CSVs
+        run: |
+          git config --global user.email "action@github.com"
+          git config --global user.name "GitHub Actions"
+          git add laptop_prices.db cleaned_Data.csv amazon_scrape_data.csv
+          git commit -m "Automated DB update $(date +'%Y-%m-%d')" || echo "No changes to commit"
+          git push
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
