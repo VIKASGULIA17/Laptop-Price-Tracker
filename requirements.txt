@@ -4,4 +4,3 @@ numpy
 scikit-learn
 requests
 plotly
-sqlite3-binary
