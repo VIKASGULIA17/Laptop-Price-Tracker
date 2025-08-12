@@ -46,8 +46,6 @@ def web_scraping():
     print("Scraping complete. Data saved to 'amazon_scrape_data.csv'.")
 
 
-df=pd.read_csv('amazon_scrape_data.csv')
-
 '''cleaning functions for the scraped data'''
 
 def clean_delivery(col):
@@ -80,7 +78,8 @@ def clean_spec_values(df):
         df[col] = df[col].fillna("Info not available")
     return df
 
-def data_cleaning(df):
+def data_cleaning(df='amazon_scrape_data.csv'):
+    df = pd.read_csv(df)
     df = df[['rating', 'reviews', 'extracted_price', 'asin', 'title', 'link_clean', 'thumbnail', 'delivery', 'scrape_date', 'specs']]
 
     # Step 1: Parse specs
@@ -244,8 +243,8 @@ def run_all():
 
     # Step 2: Data Cleaning
     print("\n Step 2: Cleaning data...")
-    raw_df = pd.read_csv("amazon_scrape_data.csv")
-    cleaned_df = data_cleaning(raw_df)
+    
+    cleaned_df = data_cleaning()
     print(f" Data cleaning complete. Saved to 'cleaned_Data.csv' ({len(cleaned_df)} rows).")
 
     # Step 3: Merge & Update DB
