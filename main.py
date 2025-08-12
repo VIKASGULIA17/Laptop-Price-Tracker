@@ -22,6 +22,24 @@ st.markdown("""
     .main > div {
         padding-top: 2rem;
     }
+    .main, .block-container {
+        background-color: #ffffff !important;
+    }
+
+    /* Sidebar background */
+    .sidebar .sidebar-content {
+        background-color: #f8fafc !important;
+    }
+
+    /* Body background */
+    body {
+        background-color: #ffffff !important;
+    }
+
+    /* Text color - Dark for light backgrounds */
+    .css-xxxxxx, .stText, .stMarkdown {
+        color: #262730 !important;
+    }
     .stMetric {
         background: linear-gradient(90deg, #f8fafc 0%, #f1f5f9 100%);
         border: 1px solid #e2e8f0;
