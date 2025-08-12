@@ -226,4 +226,33 @@ def update_merged_data(new_data_path="cleaned_Data.csv", db_path="laptop_prices.
     upsert_to_sqlite(combined_df, db_path=db_path, table_name=table_name)
 
     print("✅ Merged data updated and saved to database.")
-update_merged_data()
+
+
+def run_all():
+    """
+    Runs the full pipeline:
+    1. Scrape Amazon laptop data via SerpAPI
+    2. Clean and preprocess the scraped data
+    3. Update SQLite database with the cleaned data
+    """
+    print(" Starting full pipeline...")
+
+    # Step 1: Web Scraping
+    print("\n Step 1: Web scraping started...")
+    web_scraping()
+    print(" Web scraping complete.")
+
+    # Step 2: Data Cleaning
+    print("\n Step 2: Cleaning data...")
+    raw_df = pd.read_csv("amazon_scrape_data.csv")
+    cleaned_df = data_cleaning(raw_df)
+    print(f" Data cleaning complete. Saved to 'cleaned_Data.csv' ({len(cleaned_df)} rows).")
+
+    # Step 3: Merge & Update DB
+    print("\n Step 3: Updating database...")
+    update_merged_data(new_data_path="cleaned_Data.csv")
+    print(" Database update complete.")
+
+    print("\n All steps completed successfully!")
+
+    
