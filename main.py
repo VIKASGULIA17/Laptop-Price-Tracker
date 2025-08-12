@@ -21,24 +21,22 @@ st.markdown("""
 <style>
     .main > div {
         padding-top: 2rem;
+        
     }
     .main, .block-container {
         background-color: #ffffff !important;
     }
 
-    /* Sidebar background */
     .sidebar .sidebar-content {
-        background-color: #f8fafc !important;
+        background-color: white !important;
     }
 
-    /* Body background */
     body {
         background-color: #ffffff !important;
     }
 
-    /* Text color - Dark for light backgrounds */
     .css-xxxxxx, .stText, .stMarkdown {
-        color: #262730 !important;
+        color: black !important;
     }
     .stMetric {
         background: linear-gradient(90deg, #f8fafc 0%, #f1f5f9 100%);
@@ -96,10 +94,52 @@ st.markdown("""
     .sidebar .sidebar-content {
         background-color: #f8fafc;
     }
-    h1, h2, h3 {
-        color: #1e293b;
+    h1 {
+        color: black !important;  /* example: deep blue */
+    }
+
+    /* Change subheader (h2 or h3 depending on usage) color */
+    h2, h3 {
+        color: black !important;  /* example: blue */
+    }
+
+    [data-testid="stSidebar"] {
+        background-color: #f8fafc !important; /* light gray */
+        /* You can set any other color here */
+    }
+
+    /* Sidebar sidebar-content background (alternate container) */
+    .sidebar .sidebar-content {
+        background-color: #f8fafc !important;
+    }
+            
+    /* Change st.metric label, value, and delta colors */
+    .stMetric label[data-testid="stMetricLabel"] {
+        color: black !important;  /* label text color */
+    }
+    .stMetric div[data-testid="stMetricValue"] {
+        color: black !important;  /* main value color */
+        font-weight: 500;
+    }
+    .stMetric div[data-testid="stMetricDelta"] {
+        color: #16a34a !important;  /* delta value color (green as example) */
+        font-weight: 600;
+    }
+
+    /* Change markdown text color */
+    .streamlit-expanderHeader, 
+    .stMarkdown, 
+    .css-1d391kg {
+        color: black !important;  /* example: gray-700 */
+        size:1rem;
     }
     
+    section[data-testid="stSidebar"] label {
+        color: black !important;  /* Change to your desired color, e.g., blue */
+        font-weight: 600;           /* Optional: make it bold */
+        font-size: 1.1rem;          /* Optional: adjust font size */
+    }
+            
     .laptop-card {
         border-radius: 12px;
         background: white;
@@ -194,7 +234,17 @@ st.markdown("""
     .view-btn:hover {
         background: linear-gradient(135deg, #2563eb, #1e40af);
     }
-
+    section[data-testid="stSidebar"] hr {
+                 
+    border-top: 2px solid #cacccf; 
+    margin: 10px 0;              
+}
+            
+    hr.custom-divider {
+    border: none;
+    border-top: 2px solid #cacccf; /* Green */
+    margin: 10px 0;
+}
 </style>       
 
 """, unsafe_allow_html=True)
@@ -270,7 +320,7 @@ if page == "🏠 Dashboard":
     else:
         st.info("No hot deals available at the moment. Check back later!")
     
-    st.markdown("---")
+    st.markdown('<hr class="custom-divider">', unsafe_allow_html=True)
     
     # Key Metrics Row
     col1, col2, col3, col4 = st.columns(4)
@@ -291,7 +341,8 @@ if page == "🏠 Dashboard":
         high_rated = len(df[df['rating'] > 4.0])
         st.metric("⭐ Rating > 4.0", high_rated)
     
-    st.markdown("---")
+    st.markdown('<hr class="custom-divider">', unsafe_allow_html=True)
+    
     
     # Enhanced Filters Section
     st.subheader("🔍 Advanced Filter Options")
@@ -347,7 +398,7 @@ if page == "🏠 Dashboard":
     if search_term:
         filtered_df = filtered_df[filtered_df['title'].str.contains(search_term, case=False, na=False)]
     
-    st.markdown("---")
+    st.markdown('<hr class="custom-divider">', unsafe_allow_html=True)
     
     # Quick Stats for filtered data
     if len(filtered_df) != len(df):
@@ -364,7 +415,7 @@ if page == "🏠 Dashboard":
                 st.metric("Avg Rating", f"{filtered_df['rating'].mean():.1f}⭐")
             else:
                 st.metric("Avg Rating", "N/A")
-        st.markdown("---")
+        st.markdown('<hr class="custom-divider">', unsafe_allow_html=True)
     
     # Data Table with Export Option
     col1, col2 = st.columns([3, 1])
@@ -477,19 +528,59 @@ elif page == "💻 Laptop Details":
         with col1:
             best_deal = filtered_df[filtered_df['buy_now'] == 'Yes'].nlargest(1, 'rating')
             if len(best_deal) > 0:
-                st.success(f"🏆 Best Deal: {best_deal.iloc[0]['title'][:30]}... - ${best_deal.iloc[0]['extracted_price']:.0f}")
+                st.markdown(f"""
+                <div style="
+                    background-color: #10b981;  /* green background */
+                    color: white;               /* white text */
+                    padding: 10px;
+                    border-radius: 8px;
+                    font-weight: bold;
+                    ">
+                    🏆 Best Deal: {best_deal.iloc[0]['title'][:30]}... - ${best_deal.iloc[0]['extracted_price']:.0f}
+                </div>
+                """, unsafe_allow_html=True)
             else:
-                st.info("No hot deals in current selection")
+                st.markdown("""
+                <div style="
+                    background-color: #3b82f6; /* blue background */
+                    color: white;
+                    padding: 10px;
+                    border-radius: 8px;
+                    font-weight: bold;
+                    ">
+                    No hot deals in current selection
+                </div>
+                """, unsafe_allow_html=True)
         
         with col2:
             highest_rated = filtered_df.nlargest(1, 'rating')
-            st.info(f"⭐ Highest Rated: {highest_rated.iloc[0]['rating']:.1f}/5.0")
+            st.markdown(f"""
+            <div style="
+                background-color: #2563eb;  /* blue */
+                color: white;
+                padding: 10px;
+                border-radius: 8px;
+                font-weight: bold;
+                ">
+                ⭐ Highest Rated: {highest_rated.iloc[0]['rating']:.1f}/5.0
+            </div>
+            """, unsafe_allow_html=True)
         
         with col3:
             price_range_display = f"💰 Price Range: ${filtered_df['extracted_price'].min():.0f} - ${filtered_df['extracted_price'].max():.0f}"
-            st.info(price_range_display)
+            st.markdown(f"""
+    <div style="
+        background-color: #f59e0b;  
+        color: black;
+        padding: 10px;
+        border-radius: 8px;
+        font-weight: bold;
+        ">
+        💰 Price Range: ${filtered_df['extracted_price'].min():.0f} - ${filtered_df['extracted_price'].max():.0f}
+    </div>
+    """, unsafe_allow_html=True)
     
-    st.markdown("---")
+    st.markdown('<hr class="custom-divider">', unsafe_allow_html=True)
     
     # Display laptops in cards (2 per row)
     if len(filtered_df) > 0:
@@ -568,7 +659,7 @@ elif page == "📊 Price Insights":
         avg_rating = df['rating'].mean()
         st.metric("⭐ Avg Rating", f"{avg_rating:.1f}/5.0")
     
-    st.markdown("---")
+    st.markdown('<hr class="custom-divider">', unsafe_allow_html=True)
     
     # Create visualizations
     col1, col2 = st.columns(2)
@@ -583,11 +674,14 @@ elif page == "📊 Price Insights":
             color_discrete_sequence=['#3b82f6']
         )
         fig_price.update_layout(
+            title=dict(text='📊 Price Distribution', font=dict(color='#1e293b', size=20, family='Arial')),
+            xaxis_title=dict(text='Price ($)', font=dict(color='black', size=14)),
+            yaxis_title=dict(text='Number of Laptops', font=dict(color='black', size=14)),
+            xaxis=dict(tickfont=dict(color='grey')),
+            yaxis=dict(tickfont=dict(color='grey')),
             showlegend=False,
             paper_bgcolor='rgba(0,0,0,0)',
-            plot_bgcolor='rgba(0,0,0,0)',
-            xaxis_title='Price ($)',
-            yaxis_title='Number of Laptops'
+            plot_bgcolor='rgba(0,0,0,0)'
         )
         st.plotly_chart(fig_price, use_container_width=True)
     
@@ -601,11 +695,14 @@ elif page == "📊 Price Insights":
             color_discrete_sequence=['#10b981']
         )
         fig_rating.update_layout(
+            title=dict(text='⭐ Rating Distribution', font=dict(color='black', size=20, family='Arial')),
+            xaxis_title=dict(text='Rating', font=dict(color='black', size=14)),
+            yaxis_title=dict(text='Number of Laptops', font=dict(color='black', size=14)),
+            xaxis=dict(tickfont=dict(color='grey')),
+            yaxis=dict(tickfont=dict(color='grey')),
             showlegend=False,
             paper_bgcolor='rgba(0,0,0,0)',
             plot_bgcolor='rgba(0,0,0,0)',
-            xaxis_title='Rating',
-            yaxis_title='Number of Laptops'
         )
         st.plotly_chart(fig_rating, use_container_width=True)
     
@@ -624,10 +721,16 @@ elif page == "📊 Price Insights":
             hover_data=['title', 'brand']
         )
         fig_scatter.update_layout(
+            title=dict(text='💰 Price vs Rating Analysis', font=dict(color='black', size=20, family='Arial')),
             paper_bgcolor='rgba(0,0,0,0)',
             plot_bgcolor='rgba(0,0,0,0)',
-            xaxis_title='Rating',
-            yaxis_title='Price ($)'
+            xaxis_title=dict(text='Rating', font=dict(color='black')),
+            yaxis_title=dict(text='Price ($)', font=dict(color='black')),
+            xaxis=dict(tickfont=dict(color='grey')),
+            yaxis=dict(tickfont=dict(color='grey')),
+            legend_title=dict(text='Buy Now Deal', font=dict(color='black')),
+            legend_font_color="#000000",
+            legend_font_size=12
         )
         st.plotly_chart(fig_scatter, use_container_width=True)
     
@@ -640,8 +743,12 @@ elif page == "📊 Price Insights":
             title='💻 Operating System Distribution'
         )
         fig_os.update_layout(
+            title=dict(text='💻 Operating System Distribution', font=dict(color='black', size=20, family='Arial')),
             paper_bgcolor='rgba(0,0,0,0)',
-            plot_bgcolor='rgba(0,0,0,0)'
+            plot_bgcolor='rgba(0,0,0,0)',
+            legend_title=dict(text='Operating System', font=dict(color='black')),
+            legend_font_color="#000000",
+            legend_font_size=12
         )
         st.plotly_chart(fig_os, use_container_width=True)
     
@@ -659,11 +766,14 @@ elif page == "📊 Price Insights":
             color_discrete_map={'Yes': '#10b981', 'No': '#f59e0b'}
         )
         fig_buy_now.update_layout(
+            title=dict(text='🔥 Price Distribution by Deal Status', font=dict(color='black', size=20, family='Arial')),
             showlegend=False,
             paper_bgcolor='rgba(0,0,0,0)',
             plot_bgcolor='rgba(0,0,0,0)',
-            xaxis_title='Buy Now Deal',
-            yaxis_title='Price ($)'
+            xaxis_title=dict(text='Buy Now Deal', font=dict(color='black')),
+            yaxis_title=dict(text='Price ($)', font=dict(color='black')),
+            xaxis=dict(tickfont=dict(color='grey')),
+            yaxis=dict(tickfont=dict(color='grey'))
         )
         st.plotly_chart(fig_buy_now, use_container_width=True)
     
@@ -678,11 +788,14 @@ elif page == "📊 Price Insights":
             color_discrete_map={'Stable': '#10b981', 'Unstable': '#ef4444'}
         )
         fig_stability.update_layout(
+            title=dict(text='📈 Price Distribution by Stability', font=dict(color='black', size=20, family='Arial')),
             showlegend=False,
             paper_bgcolor='rgba(0,0,0,0)',
             plot_bgcolor='rgba(0,0,0,0)',
-            xaxis_title='Price Stability',
-            yaxis_title='Price ($)'
+            xaxis_title=dict(text='Price Stability', font=dict(color='black')),
+            yaxis_title=dict(text='Price ($)', font=dict(color='black')),
+            xaxis=dict(tickfont=dict(color='grey')),
+            yaxis=dict(tickfont=dict(color='grey'))
         )
         st.plotly_chart(fig_stability, use_container_width=True)
     
@@ -691,25 +804,41 @@ elif page == "📊 Price Insights":
     
     col1, col2 = st.columns(2)
     
+
     with col1:
         # Average price by brand
         brand_price = df.groupby('brand')['extracted_price'].mean().sort_values(ascending=False)
+
+        # Create a Plotly bar chart
         fig_brand_price = px.bar(
             x=brand_price.index,
             y=brand_price.values,
-            title='💰 Average Price by Brand',
             color=brand_price.values,
-            color_continuous_scale='Blues'
+            color_continuous_scale='Purples',
+            labels={'x': 'Brand', 'y': 'Average Price ($)'},
+            title='💰 Average Price by Brand'
         )
+
+        # Update layout
         fig_brand_price.update_layout(
-            showlegend=False,
+            title=dict(text='💰 Average Price by Brand', font=dict(color='black', size=20, family='Arial')),
             paper_bgcolor='rgba(0,0,0,0)',
             plot_bgcolor='rgba(0,0,0,0)',
-            xaxis_title='Brand',
-            yaxis_title='Average Price ($)'
+            xaxis_title=dict(text='Brand', font=dict(color='black')),
+            yaxis_title=dict(text='Average Price ($)', font=dict(color='black')),
+            xaxis=dict(tickfont=dict(color='grey')),
+            yaxis=dict(tickfont=dict(color='grey')),
+            
         )
+        fig_brand_price.update_coloraxes(colorbar=dict(
+        title='Avg Price ($)',
+        tickfont=dict(color='black'),
+        title_font=dict(color='black', size=14, family='Arial')
+        ))
+
+
         st.plotly_chart(fig_brand_price, use_container_width=True)
-    
+
     with col2:
         # Brand market share
         brand_counts = df['brand'].value_counts()
@@ -720,7 +849,11 @@ elif page == "📊 Price Insights":
         )
         fig_brand_share.update_layout(
             paper_bgcolor='rgba(0,0,0,0)',
-            plot_bgcolor='rgba(0,0,0,0)'
+            plot_bgcolor='rgba(0,0,0,0)',
+            title=dict(text='📊 Brand Market Share', font=dict(color='black', size=20, family='Arial')),
+            legend_font_color='#1e293b',
+            legend_font_size=12,
+            legend_title=dict(text='Brand', font=dict(color='black'))
         )
         st.plotly_chart(fig_brand_share, use_container_width=True)
     
@@ -746,10 +879,16 @@ elif page == "📊 Price Insights":
                 size='rating'
             )
             fig_ram.update_layout(
+                title=dict(text='💾 RAM vs Price Relationship', font=dict(color='black', size=20, family='Arial')),
                 paper_bgcolor='rgba(0,0,0,0)',
                 plot_bgcolor='rgba(0,0,0,0)',
-                xaxis_title='RAM (GB)',
-                yaxis_title='Price ($)'
+                xaxis_title=dict(text='RAM (GB)', font=dict(color='black')),
+                yaxis_title=dict(text='Price ($)', font=dict(color='black')),
+                xaxis=dict(tickfont=dict(color='grey')),
+                yaxis=dict(tickfont=dict(color='grey')),
+                legend_title=dict(text='Brand', font=dict(color='black')),
+                legend_font_color='#1e293b',
+                legend_font_size=12
             )
             st.plotly_chart(fig_ram, use_container_width=True)
     
@@ -765,10 +904,17 @@ elif page == "📊 Price Insights":
             color_discrete_map={'Yes': '#10b981', 'No': '#f59e0b'}
         )
         fig_reviews.update_layout(
+
+            title=dict(text='⭐ Rating vs Review Count', font=dict(color='black', size=20, family='Arial')),
             paper_bgcolor='rgba(0,0,0,0)',
             plot_bgcolor='rgba(0,0,0,0)',
-            xaxis_title='Number of Reviews',
-            yaxis_title='Rating'
+            xaxis_title=dict(text='Number of Reviews', font=dict(color='black')),
+            yaxis_title=dict(text='Rating', font=dict(color='black')),
+            xaxis=dict(tickfont=dict(color='grey')),
+            yaxis=dict(tickfont=dict(color='grey')),
+            legend_title=dict(text='Buy Now Deal', font=dict(color='black')),   
+            legend_font_color='#1e293b',
+            legend_font_size=12
         )
         st.plotly_chart(fig_reviews, use_container_width=True)
     
@@ -831,7 +977,7 @@ elif page == "⚖️ Compare Laptops":
         laptop1 = df.iloc[laptop1_idx]
         laptop2 = df.iloc[laptop2_idx]
         
-        st.markdown("---")
+        st.markdown('<hr class="custom-divider">', unsafe_allow_html=True)
         
         # Comparison cards
         col1, col2 = st.columns(2)
@@ -895,7 +1041,7 @@ elif page == "⚖️ Compare Laptops":
 
         
         # Comparison summary
-        st.markdown("---")
+        st.markdown('<hr class="custom-divider">', unsafe_allow_html=True)
         st.subheader("📊 Quick Comparison")
         
         col1, col2, col3 = st.columns(3)
@@ -931,5 +1077,5 @@ elif page == "⚖️ Compare Laptops":
         st.warning("⚠️ Please select two different laptops to compare.")
 
 # Footer
-st.markdown("---")
+st.markdown('<hr class="custom-divider">', unsafe_allow_html=True)
 st.markdown("*Built with ❤️ using Streamlit | Data refreshed weekly*")
