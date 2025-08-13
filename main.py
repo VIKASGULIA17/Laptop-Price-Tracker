@@ -24,17 +24,16 @@ st.markdown("""
         
     }
     .main, .block-container {
-        background-color: #ffffff !important;
+        background-color: white !important;
+        min-height: 100vh;
+        overflow:scroll;
     }
-
     .sidebar .sidebar-content {
         background-color: white !important;
     }
-
     body {
         background-color: #ffffff !important;
     }
-
     .css-xxxxxx, .stText, .stMarkdown {
         color: black !important;
     }
@@ -45,7 +44,6 @@ st.markdown("""
         padding: 1rem;
         box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.1);
     }
-    
     .laptop-card:hover {
         box-shadow: 0 4px 12px rgba(0,0,0,0.1);
         transform: translateY(-5px);
@@ -95,51 +93,37 @@ st.markdown("""
         background-color: #f8fafc;
     }
     h1 {
-        color: black !important;  /* example: deep blue */
+        color: black !important;
     }
-
-    /* Change subheader (h2 or h3 depending on usage) color */
     h2, h3 {
-        color: black !important;  /* example: blue */
+        color: black !important;
     }
-
     [data-testid="stSidebar"] {
-        background-color: #f8fafc !important; /* light gray */
-        /* You can set any other color here */
+        background-color: #f8fafc !important;
     }
-
-    /* Sidebar sidebar-content background (alternate container) */
     .sidebar .sidebar-content {
         background-color: #f8fafc !important;
     }
-            
-    /* Change st.metric label, value, and delta colors */
     .stMetric label[data-testid="stMetricLabel"] {
-        color: black !important;  /* label text color */
+        color: black !important;
     }
     .stMetric div[data-testid="stMetricValue"] {
-        color: black !important;  /* main value color */
+        color: black !important;
         font-weight: 500;
     }
     .stMetric div[data-testid="stMetricDelta"] {
-        color: #16a34a !important;  /* delta value color (green as example) */
+        color: #16a34a !important;
         font-weight: 600;
     }
-
-    /* Change markdown text color */
-    .streamlit-expanderHeader, 
-    .stMarkdown, 
-    .css-1d391kg {
-        color: black !important;  /* example: gray-700 */
-        size:1rem;
+    .streamlit-expanderHeader, .stMarkdown, .css-1d391kg {
+        color: black !important;
+        size: 1rem;
     }
-    
     section[data-testid="stSidebar"] label {
-        color: black !important;  /* Change to your desired color, e.g., blue */
-        font-weight: 600;           /* Optional: make it bold */
-        font-size: 1.1rem;          /* Optional: adjust font size */
+        color: black !important;
+        font-weight: 600;
+        font-size: 1.1rem;
     }
-            
     .laptop-card {
         border-radius: 12px;
         background: white;
@@ -150,28 +134,22 @@ st.markdown("""
     }
     .laptop-card img {
         border-radius: 8px;
-        height:200px;
-        width:250px;
-        margin:3px;
-    }     
-         
-
-                
+        height: 200px;
+        width: 250px;
+        margin: 3px;
+    }
     .compare-card {
         transition: all 0.3s ease;
         text-align: center;
     }
-
     .compare-card:hover {
         transform: translateY(-3px);
         box-shadow: 0 6px 18px rgba(0,0,0,0.08);
     }
-
     .compare-card__image-wrap {
         text-align: center;
         margin-bottom: 1rem;
     }
-
     .compare-card__image-wrap img {
         border-radius: 12px;
         height: 160px;
@@ -187,7 +165,6 @@ st.markdown("""
         margin-bottom: 1rem;
         min-height: 48px;
     }
-
     .price-tag {
         font-size: 1.1rem;
         font-weight: bold;
@@ -198,7 +175,6 @@ st.markdown("""
         display: inline-block;
         margin-bottom: 1rem;
     }
-
     .spec-grid {
         display: grid;
         grid-template-columns: 1fr 1fr;
@@ -206,7 +182,6 @@ st.markdown("""
         text-align: left;
         margin-bottom: 1rem;
     }
-
     .spec-item {
         background: #f8fafc;
         padding: 6px 10px;
@@ -214,11 +189,9 @@ st.markdown("""
         font-size: 1rem;
         color: #475569;
     }
-
     .compare-card__button-wrap {
         margin-top: 1rem;
     }
-
     .view-btn {
         background: linear-gradient(135deg, #3b82f6, #1d4ed8);
         color: white !important;
@@ -230,23 +203,28 @@ st.markdown("""
         display: inline-block;
         transition: background 0.3s ease;
     }
-
     .view-btn:hover {
         background: linear-gradient(135deg, #2563eb, #1e40af);
     }
     section[data-testid="stSidebar"] hr {
-                 
-    border-top: 2px solid #cacccf; 
-    margin: 10px 0;              
-}
-            
+        border-top: 2px solid #cacccf; 
+        margin: 10px 0;              
+    }
     hr.custom-divider {
-    border: none;
-    border-top: 2px solid #cacccf; /* Green */
-    margin: 10px 0;
-}
-</style>       
-
+        border: none;
+        border-top: 2px solid #cacccf;
+        margin: 10px 0;
+    }
+    div[data-testid="stSlider"] > label,
+    div[data-testid="stSelectbox"] > label {
+        color: black !important;
+        font-weight: 600;
+    }
+    div[data-testid="stTextInput"] > label {
+        color: black !important;
+        font-weight: 600;
+    }
+</style>
 """, unsafe_allow_html=True)
 
 # Database connection function
@@ -311,7 +289,7 @@ if page == "🏠 Dashboard":
          
          
                     st.markdown(f"""
-                    <div style="background: linear-gradient(to right, #4CB8C4 0%, #3CD3AD  51%, #3CD3AD  100%); color: white; padding: 1rem; border-radius: 12px; text-align: center; margin-bottom: 1rem;">
+                    <div style="background: linear-gradient(to right, #4776E6 0%, #8E54E9  100%); color: white; padding: 1rem; border-radius: 12px; text-align: center; margin-bottom: 1rem;">
                         <h5 style="color: white; margin: 0;">{deal['title'][:40]}...</h5>
                         <div style="font-size: 1.5rem; font-weight: bold; margin: 0.5rem 0;">${deal['extracted_price']:.0f}</div>
                         <div>⭐ {deal['rating']:.1f} ({deal['reviews']:,.0f} reviews)</div>
@@ -535,6 +513,7 @@ elif page == "💻 Laptop Details":
                     padding: 10px;
                     border-radius: 8px;
                     font-weight: bold;
+                    margin: 10px;
                     ">
                     🏆 Best Deal: {best_deal.iloc[0]['title'][:30]}... - ${best_deal.iloc[0]['extracted_price']:.0f}
                 </div>
@@ -547,6 +526,7 @@ elif page == "💻 Laptop Details":
                     padding: 10px;
                     border-radius: 8px;
                     font-weight: bold;
+                    margin: 10px;
                     ">
                     No hot deals in current selection
                 </div>
@@ -561,7 +541,7 @@ elif page == "💻 Laptop Details":
                 padding: 10px;
                 border-radius: 8px;
                 font-weight: bold;
-                ">
+                margin: 10px;">
                 ⭐ Highest Rated: {highest_rated.iloc[0]['rating']:.1f}/5.0
             </div>
             """, unsafe_allow_html=True)
@@ -575,7 +555,7 @@ elif page == "💻 Laptop Details":
         padding: 10px;
         border-radius: 8px;
         font-weight: bold;
-        ">
+        margin: 10px;">
         💰 Price Range: ${filtered_df['extracted_price'].min():.0f} - ${filtered_df['extracted_price'].max():.0f}
     </div>
     """, unsafe_allow_html=True)
@@ -1074,7 +1054,18 @@ elif page == "⚖️ Compare Laptops":
                 st.metric("Review Count Diff", "0", "Same review count")
     
     else:
-        st.warning("⚠️ Please select two different laptops to compare.")
+        st.markdown("""
+<div style="
+    background-color: #fde68a; 
+    color: #78350f; 
+    padding: 12px; 
+    border-radius: 6px; 
+    border-left: 6px solid #f59e0b;
+    font-weight: 600;">
+    ⚠️ Please select two different laptops to compare.
+</div>
+""", unsafe_allow_html=True)
+
 
 # Footer
 st.markdown('<hr class="custom-divider">', unsafe_allow_html=True)
